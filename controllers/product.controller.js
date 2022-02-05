@@ -1,4 +1,4 @@
-const { Product } = require('../models');
+const { Product, Gallery } = require('../models');
 const { badRequest } = require('boom');
 
 
@@ -44,5 +44,14 @@ exports.updateProduct = async (id,data) => {
 
 exports.getProduct = async (id) => {
 	const product = await Product.findOne({ where: {id}});
-	return product;
+	let images = {};
+	if(product){
+		// images = await product.getGallery();
+		images = await Gallery.findAll({
+			where: {
+				productId: product.id
+			}
+		})
+	}
+	return {product, images};
 }
