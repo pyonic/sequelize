@@ -1,23 +1,23 @@
 const router = require('express').Router();
 
-const UserController = require('../controllers/user.controller');
 const { checkAdmin } = require('../middlware/jwt');
+const UserController = require('../controllers/user.controller');
 
-router.get('/', checkAdmin, async (req, res, next) => {
-	try{
+router.get('/', checkAdmin, async (_req, res, next) => {
+	try {
 		const users = await UserController.getUsers();
 		res.json({data: users});
 	} catch (error) {
-		next(error)
+		next(error);
 	}
 });
 
 router.post('/login', async (req, res, next) => {
-	try{
+	try {
 		const response = await UserController.userLogin(req.body);	
-		res.json({data: response})
+		res.json({data: response});
 	} catch (error) {
-		next(error)
+		next(error);
 	}
 });
 
